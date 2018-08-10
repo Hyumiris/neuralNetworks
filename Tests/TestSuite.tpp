@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-#include "TestCase.h"
+#include "TestCase.tpp"
 
 template <typename infoObjType>
 class TestSuite

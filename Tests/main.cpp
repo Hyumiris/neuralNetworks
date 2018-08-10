@@ -1,5 +1,5 @@
 
-#include "TestSuite.h"
+#include "TestSuite.tpp"
 
 #include "Matrix.h"
 #include "NeuralNetwork.h"
