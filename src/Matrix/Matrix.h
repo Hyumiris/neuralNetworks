@@ -33,8 +33,10 @@ class Matrix
 
 	// general per element operation
 
-	Matrix const &op(double (*fn)(double));
-	Matrix &op(Matrix const &m, double (*fn)(double, double));
+	template <typename func_type>
+	Matrix const &op(func_type fn);
+	template <typename func_type>
+	Matrix &op(Matrix const &m, func_type fn);
 
 	// per element arithmetic
 	Matrix const &operator+=(Matrix const &m);
@@ -64,5 +66,7 @@ class Matrix
 
 	double *_data;
 };
+
+#include "Matrix.tpp"
 
 #endif

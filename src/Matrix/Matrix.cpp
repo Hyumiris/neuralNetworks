@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <algorithm>
-#include <cassert>
+#include <stdexcept>
 
 using namespace std;
 
@@ -13,7 +13,10 @@ using namespace std;
 
 Matrix::Matrix(int height, int width)
 {
-	assert(width >= 0 && height >= 0);
+	if (width < 0 && height < 0)
+	{
+		throw std::out_of_range("width or height are negative");
+	}
 	_width = width;
 	_height = height;
 	_data = new double[_width * _height];
@@ -47,6 +50,10 @@ Matrix &Matrix::operator=(Matrix const &m)
 
 bool Matrix::operator==(Matrix const &m)
 {
+	if (this == &m)
+	{
+		return true;
+	}
 	if (_width != m._width)
 	{
 		return false;
@@ -64,53 +71,22 @@ bool Matrix::operator==(Matrix const &m)
 
 double &Matrix::operator()(int h, int w)
 {
-	assert(h >= 0 && w >= 0);
-	assert(h < _height && w < _width);
 	return _data[_width * h + w];
 }
 
 double *Matrix::operator[](int h)
 {
-	assert(h > 0 && h < _height);
 	return _data + (_width * h);
 }
 
 double Matrix::operator()(int h, int w) const
 {
-	assert(h >= 0 && w >= 0);
-	assert(h < _height && w < _width);
 	return _data[_width * h + w];
 }
 
 double const *Matrix::operator[](int h) const
 {
-	assert(h > 0 && h < _height);
 	return _data + (_width * h);
-}
-
-/*
-------------------------------------------------- per element operation
-*/
-
-Matrix const &Matrix::op(double (*fn)(double))
-{
-	for (int h = _height - 1; h >= 0; --h)
-		for (int w = _width - 1; w >= 0; --w)
-			(*this)(h, w) = fn((*this)(h, w));
-
-	return *this;
-}
-
-Matrix &Matrix::op(Matrix const &m, double (*fn)(double, double))
-{
-	assert(m._width == _width);
-	assert(m._height == _height);
-
-	for (int h = _height - 1; h >= 0; --h)
-		for (int w = _width - 1; w >= 0; --w)
-			(*this)(h, w) = fn((*this)(h, w), m(h, w));
-
-	return *this;
 }
 
 /*
@@ -119,8 +95,10 @@ Matrix &Matrix::op(Matrix const &m, double (*fn)(double, double))
 
 Matrix const &Matrix::operator+=(Matrix const &m)
 {
-	assert(m._width == _width);
-	assert(m._height == _height);
+	if (m._width != _width || m._height != _height)
+	{
+		throw std::invalid_argument("Matrices have unequal size");
+	}
 
 	for (int h = _height - 1; h >= 0; --h)
 		for (int w = _width - 1; w >= 0; --w)
@@ -131,8 +109,10 @@ Matrix const &Matrix::operator+=(Matrix const &m)
 
 Matrix const &Matrix::operator-=(Matrix const &m)
 {
-	assert(m._width == _width);
-	assert(m._height == _height);
+	if (m._width != _width || m._height != _height)
+	{
+		throw std::invalid_argument("Matrices have unequal size");
+	}
 
 	for (int h = _height - 1; h >= 0; --h)
 		for (int w = _width - 1; w >= 0; --w)
@@ -143,8 +123,10 @@ Matrix const &Matrix::operator-=(Matrix const &m)
 
 Matrix const &Matrix::operator*=(Matrix const &m)
 {
-	assert(m._width == _width);
-	assert(m._height == _height);
+	if (m._width != _width || m._height != _height)
+	{
+		throw std::invalid_argument("Matrices have unequal size");
+	}
 
 	for (int h = _height - 1; h >= 0; --h)
 		for (int w = _width - 1; w >= 0; --w)
@@ -191,7 +173,10 @@ Matrix &Matrix::transpose() const
 
 Matrix &Matrix::mult(Matrix const &m)
 {
-	assert(_width == m._height);
+	if (m._height != _width)
+	{
+		throw std::invalid_argument("Matrix sizes do not match");
+	}
 	int commonLength = _width;
 
 	Matrix tmp = Matrix(_height, m._width);
