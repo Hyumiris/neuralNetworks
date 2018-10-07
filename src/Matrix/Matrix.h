@@ -32,7 +32,6 @@ class Matrix
 	double const *operator[](int h) const;
 
 	// general per element operation
-
 	template <typename func_type>
 	Matrix const &op(func_type fn);
 	template <typename func_type>

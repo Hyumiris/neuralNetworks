@@ -1,5 +1,5 @@
 
-add_executable(Tests main.cpp)
+add_executable(Tests tests.cpp)
 
 set_target_properties(Tests PROPERTIES
 	VERSION ${PROJECT_VERSION})
