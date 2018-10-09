@@ -17,12 +17,12 @@ class TestSuite_t
   public:
 	// constructor / destructor
 	TestSuite_t() { tester = testassist_t(); }
-	~TestSuite_t() { }
+	~TestSuite_t() {}
 
 	// add testcases
-	TestSuite_t<testassist_t, testable_t>& addTest(testable_t test);
+	TestSuite_t<testassist_t, testable_t> &addTest(testable_t test);
 	template <typename test_func>
-	TestSuite_t<testassist_t, testable_t>& addTest(string name, test_func fn, bool shouldPass = true);
+	TestSuite_t<testassist_t, testable_t> &addTest(string name, test_func fn, bool shouldPass = true);
 
 	// run tests
 	void runTests();
@@ -35,7 +35,7 @@ class TestSuite_t
 using TestSuite = TestSuite_t<TestAssistant, TestCase>;
 
 template <typename testassist_t, typename testable_t>
-TestSuite_t<testassist_t, testable_t>& TestSuite_t<testassist_t, testable_t>::addTest(testable_t test)
+TestSuite_t<testassist_t, testable_t> &TestSuite_t<testassist_t, testable_t>::addTest(testable_t test)
 {
 	tests.push_back(test);
 	return (*this);
@@ -43,7 +43,7 @@ TestSuite_t<testassist_t, testable_t>& TestSuite_t<testassist_t, testable_t>::ad
 
 template <typename testassist_t, typename testable_t>
 template <typename test_func>
-TestSuite_t<testassist_t, testable_t>& TestSuite_t<testassist_t, testable_t>::addTest(string name, test_func fn, bool shouldPass)
+TestSuite_t<testassist_t, testable_t> &TestSuite_t<testassist_t, testable_t>::addTest(string name, test_func fn, bool shouldPass)
 {
 	tests.push_back(testable_t(name, fn, shouldPass));
 	return (*this);
@@ -57,13 +57,16 @@ void TestSuite_t<testassist_t, testable_t>::runTests()
 		testable_t &test = tests[i];
 
 		tester.SetUp();
-		bool result = test.run(tester);
+		TestResult result = test.run(tester);
 		tester.TearDown();
 
-		std::string resString = result ? "[SUCCESS]" : "[FAILURE]";
+		std::string resString = result.code == TestResult::OK ? "[SUCCESS]" : "[FAILURE]";
 		resString.resize(12, ' ');
+		std::string name = test.name;
+		name.resize(20, ' ');
+		name.resize(23, ' ');
 
-		std::cout << resString << test.name << std::endl;
+		std::cout << resString << name << result.msg << std::endl;
 	}
 }
 

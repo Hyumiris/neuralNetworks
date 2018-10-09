@@ -5,12 +5,14 @@
 #include <string>
 
 #include "TestAssistant.h"
+#include "TestResult.h"
 
 using namespace std;
 
 struct TestCase
 {
-	using func = std::function<void(TestAssistant& tester)>;
+	using func = std::function<void(TestAssistant &tester)>;
+	using Code = TestResult::Code;
 
 	string name;
 	func fn;
@@ -19,16 +21,31 @@ struct TestCase
 	TestCase(string name, func fn, bool shouldPass) : name(name), fn(fn), shouldPass(shouldPass) {}
 	TestCase(string name, func fn) : name(name), fn(fn) {}
 
-	bool run(TestAssistant& tester)
+	TestResult run(TestAssistant &tester)
 	{
 		try
 		{
 			fn(tester);
-			return shouldPass;
+
+			return shouldPass
+					   ? TestResult(Code::OK, "")
+					   : throw test_failed(Code::SHOULD_FAIL, "should have failed");
+		}
+		catch (test_failed &e)
+		{
+			return shouldPass
+					   ? TestResult(e.code, e.what())
+					   : TestResult(Code::OK, "");
+		}
+		catch (std::exception &e)
+		{
+			return shouldPass
+					   ? TestResult(Code::ERROR_THROWN, e.what())
+					   : TestResult(Code::OK, "");
 		}
 		catch (...)
 		{
-			return !shouldPass;
+			return TestResult(Code::ERROR_THROWN, "a non exception was thrown");
 		}
 	}
 };
