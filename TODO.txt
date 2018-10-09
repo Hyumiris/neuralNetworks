@@ -1,7 +1,15 @@
 
 ----- Matrix
 
+write vector class
+	- operationen
+		- transpose
+		- arithmetic
+		- vector-matrix multiplikation
+write vector tests
+
 ----- NeuralNetwork
 
+finish big five
+
 ----- Tests
-- write testcases

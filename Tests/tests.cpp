@@ -1,9 +1,11 @@
 
-#include "TestSuite.h"
+#include <TestSuite.h>
 
 #include <iostream>
 
 #include <Matrix.h>
+#include <Vector.h>
+#include <NeuralNetwork.h>
 
 class MatrixTestAssistant : public TestAssistant
 {
@@ -141,6 +143,12 @@ int main()
 			t.Assert(m44.Width() == 4 && m44.Height() == 4);
 		})
 		.runTests();
+
+	{
+		int layerdepths[]{2, 2};
+		NeuralNetwork n(2, layerdepths);
+		Vector v(2);
+	}
 
 	assert(__MATRIX_COUNT == 0);
 	assert(__MATRIX_DATA_COUNT == 0);
