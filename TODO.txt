@@ -2,14 +2,14 @@
 ----- Matrix
 
 write vector class
-	- operationen
-		- transpose
-		- arithmetic
-		- vector-matrix multiplikation
-write vector tests
+	- do i need to reimplement the big five
+	- operationen ?
 
 ----- NeuralNetwork
 
 finish big five
 
 ----- Tests
+
+write vector tests
+write nn tests
