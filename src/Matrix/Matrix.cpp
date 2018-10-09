@@ -7,6 +7,8 @@
 
 using namespace std;
 
+int __MATRIX_COUNT = 0;
+int __MATRIX_DATA_COUNT = 0;
 /*
 ------------------------------------------------- constructors
 */
@@ -20,7 +22,9 @@ Matrix::Matrix(int height, int width)
 	_width = width;
 	_height = height;
 	_data = new double[_width * _height];
+	__MATRIX_DATA_COUNT++;
 	fill(begin(), end(), 0.0);
+	__MATRIX_COUNT++;
 }
 
 Matrix::Matrix(Matrix const &m) : Matrix(m._height, m._width)
@@ -28,19 +32,26 @@ Matrix::Matrix(Matrix const &m) : Matrix(m._height, m._width)
 	copy(m.begin(), m.end(), begin());
 }
 
+Matrix::Matrix(Matrix &&m) : Matrix(0, 0)
+{
+	swap(*this, m);
+}
+
 /*
 ------------------------------------------------- assignment
 */
 
-Matrix &Matrix::operator=(Matrix const &m)
+void swap(Matrix &m1, Matrix &m2)
 {
-	if (this == &m)
-		return *this;
-	delete[] _data;
-	_width = m._width;
-	_height = m._height;
-	_data = new double[_width * _height];
-	copy(m.begin(), m.end(), begin());
+	using std::swap;
+	swap(m1._width, m2._width);
+	swap(m1._height, m2._height);
+	swap(m1._data, m2._data);
+}
+
+Matrix &Matrix::operator=(Matrix m)
+{
+	swap(*this, m);
 	return *this;
 }
 
@@ -160,9 +171,9 @@ Matrix &Matrix::operator*(Matrix const &m) const
 ------------------------------------------------- matrix operations
 */
 
-Matrix &Matrix::transpose() const
+Matrix Matrix::transpose() const
 {
-	Matrix &m = *(new Matrix(_width, _height));
+	Matrix m = Matrix(_width, _height);
 
 	for (int w = _width - 1; w >= 0; --w)
 		for (int h = _height - 1; h >= 0; --h)
@@ -171,7 +182,7 @@ Matrix &Matrix::transpose() const
 	return m;
 }
 
-Matrix &Matrix::mult(Matrix const &m)
+Matrix Matrix::mult(Matrix const &m)
 {
 	if (m._height != _width)
 	{
@@ -185,7 +196,13 @@ Matrix &Matrix::mult(Matrix const &m)
 		for (int w = tmp._width - 1; w >= 0; --w)
 			for (int k = commonLength - 1; k >= 0; --k)
 				tmp(h, w) += (*this)(h, k) * m(k, w);
-	return (*this = tmp);
+	return tmp;
+}
+
+Matrix Matrix::mult(Matrix const &m1, Matrix const &m2)
+{
+	Matrix m(m1);
+	return m.mult(m2);
 }
 
 /*

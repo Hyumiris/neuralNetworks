@@ -2,20 +2,32 @@
 #ifndef Matrix_h
 #define Matrix_h
 
+extern int __MATRIX_COUNT;
+extern int __MATRIX_DATA_COUNT;
+
 class Matrix
 {
   public:
 	// constructors
 	Matrix(int _height = 0, int _width = 0);
 	Matrix(Matrix const &m);
-	Matrix(Matrix const *m) : Matrix(*m) {}
+	Matrix(Matrix &&m);
 
 	// destructor
-	~Matrix() { delete[] _data; }
+	~Matrix()
+	{
+		delete[] _data;
+		_data = nullptr;
+		_width = 0;
+		_height = 0;
+		__MATRIX_DATA_COUNT--;
+		__MATRIX_COUNT--;
+	}
 
 	// assignment
 	// does a copy of all elements
-	Matrix &operator=(Matrix const &m);
+	friend void swap(Matrix &m1, Matrix &m2);
+	Matrix &operator=(Matrix m);
 
 	// comparision
 	bool operator==(Matrix const &m);
@@ -47,11 +59,15 @@ class Matrix
 	Matrix &operator*(Matrix const &m) const;
 
 	// Matrix operatins
-	Matrix &transpose() const;
-	Matrix &mult(Matrix const &m);
+	Matrix transpose() const;
+	Matrix mult(Matrix const &m);
+	static Matrix mult(Matrix const &m1, Matrix const &m2);
 
 	// simple output
 	void print() const;
+
+	template <typename t1, typename t2>
+	void printState(t1 name, t2 add);
 
 	// stl minimum
 	double *begin() { return _data; }

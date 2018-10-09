@@ -2,6 +2,7 @@
 #include "Matrix.h"
 
 #include <stdexcept>
+#include <iostream>
 
 template <typename func_type>
 Matrix const &Matrix::op(func_type fn)
@@ -26,4 +27,16 @@ Matrix &Matrix::op(Matrix const &m, func_type fn)
 			(*this)(h, w) = fn((*this)(h, w), m(h, w));
 
 	return *this;
+}
+
+template <typename t1, typename t2>
+void Matrix::printState(t1 name, t2 add)
+{
+	std::cout << name << ": " << this << " [" << this->_data << "]";
+	std::cout << "   (" << _height << "|" << _width << ")";
+	if (add)
+	{
+		std::cout << "   (" << add << ")";
+	}
+	std::cout << std::endl;
 }
