@@ -30,7 +30,7 @@ Matrix &Matrix::op(Matrix const &m, func_type fn)
 }
 
 template <typename t1, typename t2>
-void Matrix::printState(t1 name, t2 add)
+void Matrix::printState(t1 name, t2 add) const
 {
 	std::cout << name << ": " << this << " [" << this->_data << "]";
 	std::cout << "   (" << _height << "|" << _width << ")";

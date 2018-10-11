@@ -59,7 +59,7 @@ Matrix &Matrix::operator=(Matrix m)
 ------------------------------------------------- comparision
 */
 
-bool Matrix::operator==(Matrix const &m)
+bool Matrix::operator==(Matrix const &m) const
 {
 	if (this == &m)
 	{
@@ -182,7 +182,7 @@ Matrix Matrix::transpose() const
 	return m;
 }
 
-Matrix Matrix::mult(Matrix const &m)
+Matrix Matrix::mult(Matrix const &m) const
 {
 	if (m._height != _width)
 	{

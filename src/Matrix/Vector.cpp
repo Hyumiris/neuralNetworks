@@ -5,12 +5,10 @@ Vector::Vector(int length) : Matrix(length, 1) {}
 
 Vector::Vector(Vector const &v) : Matrix(v) {}
 
-Vector::Vector(Vector &&v) : Matrix(0, 0)
+Vector::Vector(Vector &&v) : Vector(0)
 {
 	swap(*this, v);
 }
-
-Vector::~Vector() {}
 
 Vector &Vector::operator=(Vector v)
 {

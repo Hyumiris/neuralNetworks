@@ -144,12 +144,6 @@ int main()
 		})
 		.runTests();
 
-	{
-		int layerdepths[]{2, 2};
-		NeuralNetwork n(2, layerdepths);
-		Vector v(2);
-	}
-
 	assert(__MATRIX_COUNT == 0);
 	assert(__MATRIX_DATA_COUNT == 0);
 	return 0;

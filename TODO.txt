@@ -2,7 +2,6 @@
 ----- Matrix
 
 write vector class
-	- do i need to reimplement the big five
 	- operationen ?
 
 ----- NeuralNetwork

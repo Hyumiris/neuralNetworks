@@ -14,7 +14,7 @@ class Matrix
 	Matrix(Matrix &&m);
 
 	// destructor
-	~Matrix()
+	virtual ~Matrix()
 	{
 		delete[] _data;
 		_data = nullptr;
@@ -30,8 +30,8 @@ class Matrix
 	Matrix &operator=(Matrix m);
 
 	// comparision
-	bool operator==(Matrix const &m);
-	bool operator!=(Matrix const &m) { return !this->operator==(m); }
+	bool operator==(Matrix const &m) const;
+	bool operator!=(Matrix const &m) const { return !this->operator==(m); }
 
 	// accessors
 	int Width() const { return _width; }
@@ -60,14 +60,14 @@ class Matrix
 
 	// Matrix operatins
 	Matrix transpose() const;
-	Matrix mult(Matrix const &m);
+	Matrix mult(Matrix const &m) const;
 	static Matrix mult(Matrix const &m1, Matrix const &m2);
 
 	// simple output
 	void print() const;
 
 	template <typename t1, typename t2>
-	void printState(t1 name, t2 add);
+	void printState(t1 name, t2 add) const;
 
 	// stl minimum
 	double *begin() { return _data; }

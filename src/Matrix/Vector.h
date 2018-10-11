@@ -4,15 +4,13 @@
 
 #include "Matrix.h"
 
-class Vector : Matrix
+class Vector : public Matrix
 {
   public:
 
-	Vector(int length);
+	Vector(int length = 0);
 	Vector(Vector const& v);
 	Vector(Vector &&v);
-
-	~Vector();
 
 	friend void swap(Vector& v1, Vector& v2);
 	Vector& operator=(Vector v);
