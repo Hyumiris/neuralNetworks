@@ -1,5 +1,5 @@
 
-add_executable(Tests tests.cpp)
+add_executable(Tests tests.cpp MatrixTests.cpp VectorTests.cpp)
 
 set_target_properties(Tests PROPERTIES
 	VERSION ${PROJECT_VERSION})
