@@ -97,20 +97,29 @@ void testMatrix()
 			}
 		})
 		.addTest("Arithmetic", [](TestAssistant &t) {
-			Matrix &m1 = *(Matrix *)t.getData();
-			Matrix m2 = m1;
+			Matrix &m1_1 = *(Matrix *)t.getData();
+			fill(m1_1.begin(), m1_1.end(), 1.0);
+			Matrix m1_2 = m1_1;
 
-			fill(m1.begin(), m1.end(), 1.0);
+			Matrix m2 = Matrix(m1_1.Height(), m1_1.Height());
 			fill(m2.begin(), m2.end(), 2.0);
 
-			m1 += m2;
-			t.Assert(all_of(m1.begin(), m1.end(), [](double d) { return d == 3.0; }));
+			m1_1 += m2;
+			m1_2 = m1_2 + m2;
+			t.Assert(all_of(m1_1.begin(), m1_1.end(), [](double d) { return d == 3.0; }));
+			t.Assert(all_of(m1_2.begin(), m1_2.end(), [](double d) { return d == 3.0; }));
 
-			m1 *= m2;
-			t.Assert(all_of(m1.begin(), m1.end(), [](double d) { return d == 6.0; }));
+			m1_1 *= m2;
+			m1_2 = m1_2 * m2;
+			t.Assert(all_of(m1_1.begin(), m1_1.end(), [](double d) { return d == 6.0; }));
+			t.Assert(all_of(m1_2.begin(), m1_2.end(), [](double d) { return d == 6.0; }));
 
-			m1 -= m2;
-			t.Assert(all_of(m1.begin(), m1.end(), [](double d) { return d == 4.0; }));
+			m1_1 -= m2;
+			m1_2 = m1_2 - m2;
+			t.Assert(all_of(m1_1.begin(), m1_1.end(), [](double d) { return d == 4.0; }));
+			t.Assert(all_of(m1_2.begin(), m1_2.end(), [](double d) { return d == 4.0; }));
+
+
 		})
 		.addTest("Transpose", [](TestAssistant &t) {
 			double count = 0.0;

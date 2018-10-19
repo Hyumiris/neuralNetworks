@@ -56,3 +56,7 @@ Vector Vector::transpose() const
 	Matrix m(*this);
 	return Vector(m.transpose());
 }
+
+Vector operator*(Matrix const &m, Vector const &v) {
+	return Vector(m.operator*(v));
+}

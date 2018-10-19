@@ -54,9 +54,9 @@ class Matrix
 	Matrix const &operator-=(Matrix const &m);
 	Matrix const &operator*=(Matrix const &m);
 
-	Matrix &operator+(Matrix const &m) const;
-	Matrix &operator-(Matrix const &m) const;
-	Matrix &operator*(Matrix const &m) const;
+	Matrix operator+(Matrix const &m) const;
+	Matrix operator-(Matrix const &m) const;
+	Matrix operator*(Matrix const &m) const;
 
 	// Matrix operatins
 	Matrix transpose() const;

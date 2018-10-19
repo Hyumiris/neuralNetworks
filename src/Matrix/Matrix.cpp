@@ -146,23 +146,23 @@ Matrix const &Matrix::operator*=(Matrix const &m)
 	return *this;
 }
 
-Matrix &Matrix::operator+(Matrix const &m) const
+Matrix Matrix::operator+(Matrix const &m) const
 {
-	Matrix &retVal = *(new Matrix(*this));
+	Matrix retVal = Matrix(*this);
 	retVal += m;
 	return retVal;
 }
 
-Matrix &Matrix::operator-(Matrix const &m) const
+Matrix Matrix::operator-(Matrix const &m) const
 {
-	Matrix &retVal = *(new Matrix(*this));
+	Matrix retVal = Matrix(*this);
 	retVal -= m;
 	return retVal;
 }
 
-Matrix &Matrix::operator*(Matrix const &m) const
+Matrix Matrix::operator*(Matrix const &m) const
 {
-	Matrix &retVal = *(new Matrix(*this));
+	Matrix retVal = Matrix(*this);
 	retVal *= m;
 	return retVal;
 }

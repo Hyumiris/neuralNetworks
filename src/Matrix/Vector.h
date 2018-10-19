@@ -25,4 +25,6 @@ class Vector : public Matrix
 	Vector transpose() const;
 };
 
+Vector operator*(Matrix const &m, Vector const &v);
+
 #endif
