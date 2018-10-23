@@ -29,10 +29,6 @@ class Matrix
 	friend void swap(Matrix &m1, Matrix &m2);
 	Matrix &operator=(Matrix m);
 
-	// comparision
-	bool operator==(Matrix const &m) const;
-	bool operator!=(Matrix const &m) const { return !this->operator==(m); }
-
 	// accessors
 	int Width() const { return _width; }
 	int Height() const { return _height; }
@@ -53,10 +49,6 @@ class Matrix
 	Matrix const &operator+=(Matrix const &m);
 	Matrix const &operator-=(Matrix const &m);
 	Matrix const &operator*=(Matrix const &m);
-
-	Matrix operator+(Matrix const &m) const;
-	Matrix operator-(Matrix const &m) const;
-	Matrix operator*(Matrix const &m) const;
 
 	// Matrix operatins
 	Matrix transpose() const;
@@ -81,6 +73,15 @@ class Matrix
 
 	double *_data;
 };
+
+// non-member operator
+
+bool operator==(Matrix const &m1, Matrix const &m2);
+bool operator!=(Matrix const &m1, Matrix const &m2);
+
+Matrix operator+(Matrix const &m1, Matrix const &m2);
+Matrix operator-(Matrix const &m1, Matrix const &m2);
+Matrix operator*(Matrix const &m1, Matrix const &m2);
 
 #include "Matrix.tpp"
 

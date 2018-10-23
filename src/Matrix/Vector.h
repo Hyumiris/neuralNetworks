@@ -19,12 +19,19 @@ class Vector : public Matrix
 	friend void swap(Vector &v1, Vector &v2);
 	Vector &operator=(Vector v);
 
+	// per element arithmetic
+	Vector const &operator+=(Vector const &m);
+	Vector const &operator-=(Vector const &m);
+	Vector const &operator*=(Vector const &m);
+
 	/* accessors */
 	int Length() const;
 
 	Vector transpose() const;
 };
 
-Vector operator*(Matrix const &m, Vector const &v);
+Vector operator+(Vector const &v1, Vector const &v2);
+Vector operator-(Vector const &v1, Vector const &v2);
+Vector operator*(Vector const &v1, Vector const &v2);
 
 #endif

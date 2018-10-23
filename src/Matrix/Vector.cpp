@@ -51,12 +51,48 @@ int Vector::Length() const
 	return this->Width() == 1 ? this->Height() : this->Width();
 }
 
-Vector Vector::transpose() const
+/* per element arithmetic */
+
+Vector const &Vector::operator+=(Vector const &m)
 {
-	Matrix m(*this);
-	return Vector(m.transpose());
+	this->Matrix::operator+=(m);
+	return *this;
 }
 
-Vector operator*(Matrix const &m, Vector const &v) {
-	return Vector(m.operator*(v));
+Vector const &Vector::operator-=(Vector const &m)
+{
+	this->Matrix::operator-=(m);
+	return *this;
+}
+
+Vector const &Vector::operator*=(Vector const &m)
+{
+	this->Matrix::operator*=(m);
+	return *this;
+}
+
+Vector Vector::transpose() const
+{
+	return Vector(this->Matrix::transpose());
+}
+
+Vector operator+(Vector const &v1, Vector const &v2)
+{
+	Vector v(v1);
+	v += v2;
+	return v;
+}
+
+Vector operator-(Vector const &v1, Vector const &v2)
+{
+	Vector v(v1);
+	v -= v2;
+	return v;
+}
+
+Vector operator*(Vector const &v1, Vector const &v2)
+{
+	Vector v(v1);
+	v *= v2;
+	return v;
 }

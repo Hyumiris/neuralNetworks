@@ -56,27 +56,6 @@ Matrix &Matrix::operator=(Matrix m)
 }
 
 /*
-------------------------------------------------- comparision
-*/
-
-bool Matrix::operator==(Matrix const &m) const
-{
-	if (this == &m)
-	{
-		return true;
-	}
-	if (_width != m._width)
-	{
-		return false;
-	}
-	if (_height != m._height)
-	{
-		return false;
-	}
-	return equal(begin(), end(), m.begin());
-}
-
-/*
 ------------------------------------------------- accessors
 */
 
@@ -146,27 +125,6 @@ Matrix const &Matrix::operator*=(Matrix const &m)
 	return *this;
 }
 
-Matrix Matrix::operator+(Matrix const &m) const
-{
-	Matrix retVal = Matrix(*this);
-	retVal += m;
-	return retVal;
-}
-
-Matrix Matrix::operator-(Matrix const &m) const
-{
-	Matrix retVal = Matrix(*this);
-	retVal -= m;
-	return retVal;
-}
-
-Matrix Matrix::operator*(Matrix const &m) const
-{
-	Matrix retVal = Matrix(*this);
-	retVal *= m;
-	return retVal;
-}
-
 /*
 ------------------------------------------------- matrix operations
 */
@@ -218,4 +176,35 @@ void Matrix::print() const
 			cout << (*this)(h, w) << " ";
 		cout << "|" << endl;
 	}
+}
+
+/*
+------------------------------------------------- non-member operator
+*/
+
+bool operator==(Matrix const &m1, Matrix const &m2)
+{
+	return &m1 == &m2 || (m1.Width() == m2.Width() &&
+						  m1.Height() == m2.Height() &&
+						  equal(m1.begin(), m1.end(), m2.begin()));
+}
+bool operator!=(Matrix const &m1, Matrix const &m2) { return !(m1 == m2); }
+
+Matrix operator+(Matrix const &m1, Matrix const &m2)
+{
+	Matrix retVal(m1);
+	retVal += m2;
+	return retVal;
+}
+Matrix operator-(Matrix const &m1, Matrix const &m2)
+{
+	Matrix retVal(m1);
+	retVal -= m2;
+	return retVal;
+}
+Matrix operator*(Matrix const &m1, Matrix const &m2)
+{
+	Matrix retVal(m1);
+	retVal *= m2;
+	return retVal;
 }

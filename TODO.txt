@@ -1,8 +1,9 @@
 
 ----- Matrix
 
-write vector class
-	- operationen ?
+vector class
+	- operationen
+		- look at mult between vector and matrix
 
 ----- NeuralNetwork
 
