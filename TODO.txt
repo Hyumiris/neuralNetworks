@@ -4,6 +4,14 @@
 vector class
 	- operationen
 		- look at mult between vector and matrix
+		- dot product
+
+matrix class
+	- scalar multiplication
+	- matrix mult as operator
+	- identity matrix creation
+	- opt
+		- transformation matrices
 
 ----- NeuralNetwork
 

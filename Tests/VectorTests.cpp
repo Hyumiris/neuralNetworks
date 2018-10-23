@@ -52,15 +52,5 @@ void testVector()
 			t.Assert(m1.Width() == 5 && m1.Height() == 5);
 			t.Assert(m2.Width() == 1 && m2.Height() == 1);
 		})
-		.addTest("Vector-Matrix mult", [](TestAssistant &t) {
-			Vector v1(5);
-			Vector v2(v1.transpose());
-
-			Matrix m1 = v1.mult(v2);
-			Matrix m2 = v2.mult(v1);
-
-			t.Assert(m1.Width() == 5 && m1.Height() == 5);
-			t.Assert(m2.Width() == 1 && m2.Height() == 1);
-		})
 		.runTests();
 }
