@@ -10,7 +10,7 @@ matrix class
 	- scalar multiplication
 	- matrix mult as operator
 	- identity matrix creation
-	- opt
+	- optional
 		- transformation matrices
 
 ----- NeuralNetwork
@@ -19,5 +19,10 @@ finish big five
 
 ----- Tests
 
+write matrix tests
+	- op(Matrix, fn)
+	- * as matrix multiplication
+	- optional
+		- print/State
 write vector tests
 write nn tests

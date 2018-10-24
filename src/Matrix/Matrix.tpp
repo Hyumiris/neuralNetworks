@@ -15,7 +15,7 @@ Matrix const &Matrix::op(func_type fn)
 }
 
 template <typename func_type>
-Matrix &Matrix::op(Matrix const &m, func_type fn)
+Matrix const &Matrix::op(Matrix const &m, func_type fn)
 {
 	if (m._width != _width || m._height != _height)
 	{

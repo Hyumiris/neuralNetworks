@@ -43,7 +43,7 @@ class Matrix
 	template <typename func_type>
 	Matrix const &op(func_type fn);
 	template <typename func_type>
-	Matrix &op(Matrix const &m, func_type fn);
+	Matrix const &op(Matrix const &m, func_type fn);
 
 	// per element arithmetic
 	Matrix const &operator+=(Matrix const &m);
