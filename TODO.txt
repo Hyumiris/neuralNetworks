@@ -1,12 +1,18 @@
 
------ Matrix
+----- Testing
+
+better error feedback
+
+----- Support
 
 vector class
+	- documenting comments
 	- operationen
 		- look at mult between vector and matrix
 		- dot product
 
 matrix class
+	- documenting comments
 	- scalar multiplication
 	- matrix mult as operator
 	- identity matrix creation

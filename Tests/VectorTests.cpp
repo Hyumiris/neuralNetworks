@@ -46,8 +46,8 @@ void testVector()
 			v1.op([&c](double d) { return c++; });
 			Vector v2(v1.transpose());
 
-			Matrix m1 = v1.mult(v2);
-			Matrix m2 = v2.mult(v1);
+			Matrix m1 = v1 * v2;
+			Matrix m2 = v2 * v1;
 
 			t.Assert(m1.Width() == 5 && m1.Height() == 5);
 			t.Assert(m2.Width() == 1 && m2.Height() == 1);

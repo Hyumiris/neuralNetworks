@@ -48,12 +48,10 @@ class Matrix
 	// per element arithmetic
 	Matrix const &operator+=(Matrix const &m);
 	Matrix const &operator-=(Matrix const &m);
-	Matrix const &operator*=(Matrix const &m);
 
 	// Matrix operatins
+	Matrix const &operator*=(Matrix const &m);
 	Matrix transpose() const;
-	Matrix mult(Matrix const &m) const;
-	static Matrix mult(Matrix const &m1, Matrix const &m2);
 
 	// simple output
 	void print() const;
@@ -81,6 +79,7 @@ bool operator!=(Matrix const &m1, Matrix const &m2);
 
 Matrix operator+(Matrix const &m1, Matrix const &m2);
 Matrix operator-(Matrix const &m1, Matrix const &m2);
+
 Matrix operator*(Matrix const &m1, Matrix const &m2);
 
 #include "Matrix.tpp"

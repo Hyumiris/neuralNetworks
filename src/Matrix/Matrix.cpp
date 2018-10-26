@@ -111,36 +111,11 @@ Matrix const &Matrix::operator-=(Matrix const &m)
 	return *this;
 }
 
-Matrix const &Matrix::operator*=(Matrix const &m)
-{
-	if (m._width != _width || m._height != _height)
-	{
-		throw std::invalid_argument("Matrices have unequal size");
-	}
-
-	for (int h = _height - 1; h >= 0; --h)
-		for (int w = _width - 1; w >= 0; --w)
-			(*this)(h, w) *= m(h, w);
-
-	return *this;
-}
-
 /*
 ------------------------------------------------- matrix operations
 */
 
-Matrix Matrix::transpose() const
-{
-	Matrix m = Matrix(_width, _height);
-
-	for (int w = _width - 1; w >= 0; --w)
-		for (int h = _height - 1; h >= 0; --h)
-			m(w, h) = (*this)(h, w);
-
-	return m;
-}
-
-Matrix Matrix::mult(Matrix const &m) const
+Matrix const &Matrix::operator*=(Matrix const &m)
 {
 	if (m._height != _width)
 	{
@@ -154,13 +129,20 @@ Matrix Matrix::mult(Matrix const &m) const
 		for (int w = tmp._width - 1; w >= 0; --w)
 			for (int k = commonLength - 1; k >= 0; --k)
 				tmp(h, w) += (*this)(h, k) * m(k, w);
-	return tmp;
+
+	*this = std::move(tmp);
+	return *this;
 }
 
-Matrix Matrix::mult(Matrix const &m1, Matrix const &m2)
+Matrix Matrix::transpose() const
 {
-	Matrix m(m1);
-	return m.mult(m2);
+	Matrix m = Matrix(_width, _height);
+
+	for (int w = _width - 1; w >= 0; --w)
+		for (int h = _height - 1; h >= 0; --h)
+			m(w, h) = (*this)(h, w);
+
+	return m;
 }
 
 /*
