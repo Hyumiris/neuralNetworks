@@ -7,9 +7,11 @@ final report
 ----- Support
 
 vector class
-	- dot product
+	- accessors requiring only one parameter
+	- helper method is row/column vector
 	- optional
 		- documenting comments
+		- cross product
 
 matrix class
 	- identity matrix creation
@@ -17,6 +19,7 @@ matrix class
 		- documenting comments
 		- transformation matrices
 		- template scalar multiplication
+		- get sub matrix
 
 ----- NeuralNetwork
 
@@ -33,4 +36,5 @@ write vector tests
 	- optional
 		- operators which are based on corresponding matrix operators
 		- mat-vec-product
+		- all the invalid combinations for the dot product
 write nn tests

@@ -38,5 +38,14 @@ void testVector()
 			t.Assert(v2.Width() == v1.Height());
 			t.Assert(v2.Height() == v1.Width());
 		})
+		.addTest("dot product", [](TestAssistant &t) {
+			Vector v_col(3);
+			v_col(0, 0) = 1.0;
+			v_col(1, 0) = 2.0;
+			v_col(2, 0) = 3.0;
+			Vector v_row = v_col.transpose();
+
+			t.Assert(v_row.dot(v_col) == 14.0);
+		})
 		.runTests();
 }

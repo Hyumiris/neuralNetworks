@@ -2,6 +2,7 @@
 #include "Vector.h"
 
 #include <stdexcept>
+#include <algorithm>
 
 /* constructors */
 
@@ -80,6 +81,26 @@ Vector const &Vector::operator/=(double d)
 Vector Vector::transpose() const
 {
 	return Vector(this->Matrix::transpose());
+}
+
+double Vector::dot(Vector const &v) const
+{
+	if ((Height() > 1) || (v.Width() > 1) || (Width() != v.Height()))
+	{
+		throw std::invalid_argument("the dot product can only be used on a row and a column vector of equal size");
+	}
+
+	double result;
+	for(int i = Width() - 1; i >= 0; --i) {
+		result += (*this)(0, i) * v(i, 0);
+	}
+
+	return result;
+}
+
+double Vector::dot(Vector const &v1, Vector const &v2)
+{
+	return v1.dot(v2);
 }
 
 Vector operator+(Vector const &v1, Vector const &v2)

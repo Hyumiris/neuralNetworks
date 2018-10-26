@@ -29,6 +29,8 @@ class Vector : public Matrix
 	int Length() const;
 
 	Vector transpose() const;
+	double dot(Vector const & v) const;
+	static double dot(Vector const & v1, Vector const & v2);
 };
 
 Vector operator+(Vector const &v1, Vector const &v2);
