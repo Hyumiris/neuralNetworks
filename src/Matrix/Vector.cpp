@@ -65,9 +65,15 @@ Vector const &Vector::operator-=(Vector const &m)
 	return *this;
 }
 
-Vector const &Vector::operator*=(Vector const &m)
+Vector const &Vector::operator*=(double d)
 {
-	this->Matrix::operator*=(m);
+	this->Matrix::operator*=(d);
+	return *this;
+}
+
+Vector const &Vector::operator/=(double d)
+{
+	this->Matrix::operator/=(d);
 	return *this;
 }
 
@@ -90,9 +96,28 @@ Vector operator-(Vector const &v1, Vector const &v2)
 	return v;
 }
 
-Vector operator*(Vector const &v1, Vector const &v2)
+Vector operator*(Vector const &v, double d)
 {
-	Vector v(v1);
-	v *= v2;
-	return v;
+	Vector retVal(v);
+	retVal *= d;
+	return retVal;
+}
+
+Vector operator*(double d, Vector const &v)
+{
+	Vector retVal(v);
+	retVal *= d;
+	return retVal;
+}
+
+Vector operator/(Vector const &v, double d)
+{
+	Vector retVal(v);
+	retVal /= d;
+	return retVal;
+}
+
+Vector operator*(Matrix const &m, Vector const &v)
+{
+	return Vector(m * (Matrix const &)v);
 }

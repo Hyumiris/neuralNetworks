@@ -146,7 +146,6 @@ void testMatrix()
 
 			m33 = m34 * m43;
 			m44 = m43 * m34;
-			m44 *= m44;
 
 			t.Assert(m33.Width() == 3 && m33.Height() == 3);
 			t.Assert(m44.Width() == 4 && m44.Height() == 4);

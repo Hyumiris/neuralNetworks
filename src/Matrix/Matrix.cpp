@@ -127,25 +127,6 @@ Matrix const &Matrix::operator/=(double d)
 ------------------------------------------------- matrix operations
 */
 
-Matrix const &Matrix::operator*=(Matrix const &m)
-{
-	if (m._height != _width)
-	{
-		throw std::invalid_argument("Matrix sizes do not match");
-	}
-	int commonLength = _width;
-
-	Matrix tmp = Matrix(_height, m._width);
-
-	for (int h = tmp._height - 1; h >= 0; --h)
-		for (int w = tmp._width - 1; w >= 0; --w)
-			for (int k = commonLength - 1; k >= 0; --k)
-				tmp(h, w) += (*this)(h, k) * m(k, w);
-
-	*this = std::move(tmp);
-	return *this;
-}
-
 Matrix Matrix::transpose() const
 {
 	Matrix m = Matrix(_width, _height);
@@ -221,7 +202,18 @@ Matrix operator/(Matrix const &m, double d)
 
 Matrix operator*(Matrix const &m1, Matrix const &m2)
 {
-	Matrix retVal(m1);
-	retVal *= m2;
-	return retVal;
+	if (m1.Width() != m2.Height())
+	{
+		throw std::invalid_argument("Matrix sizes do not match");
+	}
+	int commonLength = m1.Width();
+
+	Matrix tmp = Matrix(m1.Height(), m2.Width());
+
+	for (int h = tmp.Height() - 1; h >= 0; --h)
+		for (int w = tmp.Width() - 1; w >= 0; --w)
+			for (int k = commonLength - 1; k >= 0; --k)
+				tmp(h, w) += m1(h, k) * m2(k, w);
+
+	return tmp;
 }

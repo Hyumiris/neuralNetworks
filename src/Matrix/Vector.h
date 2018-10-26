@@ -22,7 +22,8 @@ class Vector : public Matrix
 	// per element arithmetic
 	Vector const &operator+=(Vector const &m);
 	Vector const &operator-=(Vector const &m);
-	Vector const &operator*=(Vector const &m);
+	Vector const &operator*=(double d);
+	Vector const &operator/=(double d);
 
 	/* accessors */
 	int Length() const;
@@ -32,6 +33,10 @@ class Vector : public Matrix
 
 Vector operator+(Vector const &v1, Vector const &v2);
 Vector operator-(Vector const &v1, Vector const &v2);
-Vector operator*(Vector const &v1, Vector const &v2);
+Vector operator*(Vector const &v, double d);
+Vector operator*(double d, Vector const &v);
+Vector operator/(Vector const &v, double d);
+
+Vector operator*(Matrix const &m, Vector const &v);
 
 #endif

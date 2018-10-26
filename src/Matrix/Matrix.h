@@ -51,8 +51,7 @@ class Matrix
 	Matrix const &operator*=(double d);
 	Matrix const &operator/=(double d);
 
-	// Matrix operatins
-	Matrix const &operator*=(Matrix const &m);
+	// Matrix operations
 	Matrix transpose() const;
 
 	// simple output

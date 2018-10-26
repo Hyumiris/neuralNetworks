@@ -7,15 +7,14 @@ final report
 ----- Support
 
 vector class
-	- documenting comments
-	- operationen
-		- look at mult between vector and matrix
-		- dot product
+	- dot product
+	- optional
+		- documenting comments
 
 matrix class
-	- documenting comments
 	- identity matrix creation
 	- optional
+		- documenting comments
 		- transformation matrices
 		- template scalar multiplication
 
@@ -26,9 +25,12 @@ finish big five
 ----- Tests
 
 write matrix tests
-	- op(Matrix, fn)
-	- * as matrix multiplication
 	- optional
+		- op(Matrix, fn)
 		- print/State
+		- improved matrix mult tests
 write vector tests
+	- optional
+		- operators which are based on corresponding matrix operators
+		- mat-vec-product
 write nn tests
