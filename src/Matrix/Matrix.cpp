@@ -111,6 +111,18 @@ Matrix const &Matrix::operator-=(Matrix const &m)
 	return *this;
 }
 
+Matrix const &Matrix::operator*=(double d)
+{
+	this->op([d](double val) { return val * d; });
+	return *this;
+}
+
+Matrix const &Matrix::operator/=(double d)
+{
+	this->op([d](double val) { return val / d; });
+	return *this;
+}
+
 /*
 ------------------------------------------------- matrix operations
 */
@@ -178,12 +190,35 @@ Matrix operator+(Matrix const &m1, Matrix const &m2)
 	retVal += m2;
 	return retVal;
 }
+
 Matrix operator-(Matrix const &m1, Matrix const &m2)
 {
 	Matrix retVal(m1);
 	retVal -= m2;
 	return retVal;
 }
+
+Matrix operator*(Matrix const &m, double d)
+{
+	Matrix retVal(m);
+	retVal *= d;
+	return retVal;
+}
+
+Matrix operator*(double d, Matrix const &m)
+{
+	Matrix retVal(m);
+	retVal *= d;
+	return retVal;
+}
+
+Matrix operator/(Matrix const &m, double d)
+{
+	Matrix retVal(m);
+	retVal /= d;
+	return retVal;
+}
+
 Matrix operator*(Matrix const &m1, Matrix const &m2)
 {
 	Matrix retVal(m1);

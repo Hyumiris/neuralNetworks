@@ -48,6 +48,8 @@ class Matrix
 	// per element arithmetic
 	Matrix const &operator+=(Matrix const &m);
 	Matrix const &operator-=(Matrix const &m);
+	Matrix const &operator*=(double d);
+	Matrix const &operator/=(double d);
 
 	// Matrix operatins
 	Matrix const &operator*=(Matrix const &m);
@@ -79,6 +81,9 @@ bool operator!=(Matrix const &m1, Matrix const &m2);
 
 Matrix operator+(Matrix const &m1, Matrix const &m2);
 Matrix operator-(Matrix const &m1, Matrix const &m2);
+Matrix operator*(Matrix const &m, double d);
+Matrix operator*(double d, Matrix const &m);
+Matrix operator/(Matrix const &m, double d);
 
 Matrix operator*(Matrix const &m1, Matrix const &m2);
 

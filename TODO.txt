@@ -14,10 +14,10 @@ vector class
 
 matrix class
 	- documenting comments
-	- scalar multiplication
 	- identity matrix creation
 	- optional
 		- transformation matrices
+		- template scalar multiplication
 
 ----- NeuralNetwork
 

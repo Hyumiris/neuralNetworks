@@ -109,10 +109,21 @@ void testMatrix()
 			t.Assert(all_of(m1_1.begin(), m1_1.end(), [](double d) { return d == 3.0; }));
 			t.Assert(all_of(m1_2.begin(), m1_2.end(), [](double d) { return d == 3.0; }));
 
+			m1_1 *= 2.0;
+			m1_2 = m1_2 * 2.0;
+			m1_2 = 2.0  * m1_2;
+			t.Assert(all_of(m1_1.begin(), m1_1.end(), [](double d) { return d == 6.0; }));
+			t.Assert(all_of(m1_2.begin(), m1_2.end(), [](double d) { return d == 12.0; }));
+
+			m1_1 /= 2.0;
+			m1_2 = m1_2 / 2.0;
+			t.Assert(all_of(m1_1.begin(), m1_1.end(), [](double d) { return d == 3.0; }));
+			t.Assert(all_of(m1_2.begin(), m1_2.end(), [](double d) { return d == 6.0; }));
+
 			m1_1 -= m2;
 			m1_2 = m1_2 - m2;
 			t.Assert(all_of(m1_1.begin(), m1_1.end(), [](double d) { return d == 1.0; }));
-			t.Assert(all_of(m1_2.begin(), m1_2.end(), [](double d) { return d == 1.0; }));
+			t.Assert(all_of(m1_2.begin(), m1_2.end(), [](double d) { return d == 4.0; }));
 		})
 		.addTest("Transpose", [](TestAssistant &t) {
 			double count = 0.0;
