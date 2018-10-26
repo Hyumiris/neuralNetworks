@@ -2,6 +2,7 @@
 ----- Testing
 
 better error feedback
+final report
 
 ----- Support
 
@@ -14,7 +15,6 @@ vector class
 matrix class
 	- documenting comments
 	- scalar multiplication
-	- matrix mult as operator
 	- identity matrix creation
 	- optional
 		- transformation matrices
