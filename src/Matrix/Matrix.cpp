@@ -59,24 +59,32 @@ Matrix &Matrix::operator=(Matrix m)
 ------------------------------------------------- accessors
 */
 
+double &Matrix::at(int h, int w)
+{
+	if (h < 0 || h >= _height || w < 0 || w >= _width)
+	{
+		throw std::invalid_argument("attempted access out of bounds");
+	}
+	return (*this)(h, w);
+}
+
+double Matrix::at(int h, int w) const
+{
+	if (h < 0 || h >= _height || w < 0 || w >= _width)
+	{
+		throw std::invalid_argument("attempted access out of bounds");
+	}
+	return (*this)(h, w);
+}
+
 double &Matrix::operator()(int h, int w)
 {
 	return _data[_width * h + w];
 }
 
-double *Matrix::operator[](int h)
-{
-	return _data + (_width * h);
-}
-
 double Matrix::operator()(int h, int w) const
 {
 	return _data[_width * h + w];
-}
-
-double const *Matrix::operator[](int h) const
-{
-	return _data + (_width * h);
 }
 
 /*

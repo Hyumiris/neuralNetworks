@@ -52,6 +52,28 @@ int Vector::Length() const
 	return this->Width() == 1 ? this->Height() : this->Width();
 }
 
+/* accessors */
+
+double &Vector::at(int pos)
+{
+	return this->isColVector() ? this->at(pos, 0) : this->at(0, pos);
+}
+
+double Vector::at(int pos) const
+{
+	return this->isColVector() ? this->at(pos, 0) : this->at(0, pos);
+}
+
+double &Vector::operator()(int pos)
+{
+	return this->isColVector() ? (*this)(pos, 0) : (*this)(0, pos);
+}
+
+double Vector::operator()(int pos) const
+{
+	return this->isColVector() ? (*this)(pos, 0) : (*this)(0, pos);
+}
+
 /* per element arithmetic */
 
 Vector const &Vector::operator+=(Vector const &m)
@@ -78,6 +100,18 @@ Vector const &Vector::operator/=(double d)
 	return *this;
 }
 
+/* vector properties */
+
+bool Vector::isColVector() const
+{
+	return Width() == 1;
+}
+
+bool Vector::isRowVector() const
+{
+	return Height() == 1;
+}
+
 Vector Vector::transpose() const
 {
 	return Vector(this->Matrix::transpose());
@@ -85,13 +119,14 @@ Vector Vector::transpose() const
 
 double Vector::dot(Vector const &v) const
 {
-	if ((Height() > 1) || (v.Width() > 1) || (Width() != v.Height()))
+	if (!this->isRowVector() || !v.isColVector() || (Width() != v.Height()))
 	{
 		throw std::invalid_argument("the dot product can only be used on a row and a column vector of equal size");
 	}
 
 	double result;
-	for(int i = Width() - 1; i >= 0; --i) {
+	for (int i = Width() - 1; i >= 0; --i)
+	{
 		result += (*this)(0, i) * v(i, 0);
 	}
 

@@ -7,8 +7,6 @@ final report
 ----- Support
 
 vector class
-	- accessors requiring only one parameter
-	- helper method is row/column vector
 	- optional
 		- documenting comments
 		- cross product
@@ -32,8 +30,10 @@ write matrix tests
 		- print/State
 		- improved matrix mult tests
 		- improved op tests
+		- invalid access tests
 write vector tests
 	- optional
 		- operators which are based on corresponding matrix operators
 		- all the invalid combinations for the dot product
+		- invalid access tests
 write nn tests

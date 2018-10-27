@@ -66,17 +66,17 @@ void testMatrix()
 			m3x3(0, 1) = 1.0;
 			m3x3(0, 2) = 2.0;
 
-			t.Assert(m3x3[0][1] == 1.0);
+			t.Assert(m3x3.at(0, 1) == 1.0);
 
-			m3x3[1][0] = 3.0;
-			m3x3[1][1] = 4.0;
-			m3x3[1][2] = 5.0;
+			m3x3.at(1, 0) = 3.0;
+			m3x3.at(1, 1) = 4.0;
+			m3x3.at(1, 2) = 5.0;
 
 			t.Assert(m3x3(1, 2) == 5.0);
 		})
 		.addTest("constAccess", [](TestAssistant &t) {
 			Matrix const &m3x3 = *(Matrix *)t.getData();
-			t.Assert(m3x3(1, 2) == m3x3[1][2]);
+			t.Assert(m3x3(1, 2) == m3x3.at(1, 2));
 		})
 		.addTest("elementWiseOp", [](TestAssistant &t) {
 			int const w = 4;

@@ -34,10 +34,11 @@ class Matrix
 	int Height() const { return _height; }
 
 	// accessing the elements
+	double &at(int h, int w);
+	double at(int h, int w) const;
+
 	double &operator()(int h, int w);
-	double *operator[](int h);
 	double operator()(int h, int w) const;
-	double const *operator[](int h) const;
 
 	// general per element operation
 	template <typename func_type>

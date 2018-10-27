@@ -19,6 +19,15 @@ class Vector : public Matrix
 	friend void swap(Vector &v1, Vector &v2);
 	Vector &operator=(Vector v);
 
+	/* accessors */
+	double &at(int pos);
+	double at(int pos) const;
+	using Matrix::at;
+
+	double &operator()(int pos);
+	double operator()(int pos) const;
+	using Matrix::operator();
+
 	// per element arithmetic
 	Vector const &operator+=(Vector const &m);
 	Vector const &operator-=(Vector const &m);
@@ -28,6 +37,11 @@ class Vector : public Matrix
 	/* accessors */
 	int Length() const;
 
+	/* vector properties */
+	bool isColVector() const;
+	bool isRowVector() const;
+
+	/* Matrix/Vector operations */
 	Vector transpose() const;
 	double dot(Vector const & v) const;
 	static double dot(Vector const & v1, Vector const & v2);
