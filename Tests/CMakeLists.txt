@@ -4,12 +4,15 @@ add_executable(Tests tests.cpp MatrixTests.cpp VectorTests.cpp)
 set_target_properties(Tests PROPERTIES
 	VERSION ${PROJECT_VERSION})
 
-get_target_property(MATRIX_SOURCE_DIR Matrix SOURCE_DIR)
-include_directories(${MATRIX_SOURCE_DIR})
+get_target_property(ALGEBRA_INCLUDE_DIRECTORIES Algebra INTERFACE_INCLUDE_DIRECTORIES)
+target_include_directories(Tests
+	PRIVATE ${ALGEBRA_INCLUDE_DIRECTORIES})
 
-get_target_property(NEURALNETWORK_SOURCE_DIR NeuralNetwork SOURCE_DIR)
-include_directories(${NEURALNETWORK_SOURCE_DIR})
+get_target_property(NEURALNETWORK_INCLUDE_DIRECTORIES NeuralNetwork INTERFACE_INCLUDE_DIRECTORIES)
+target_include_directories(Tests
+	PRIVATE ${NEURALNETWORK_INCLUDE_DIRECTORIES})
 
-include_directories(../src/Testing)
+target_include_directories(Tests 
+	PRIVATE ../src/Testing)
 
-target_link_libraries(Tests NeuralNetwork)
+target_link_libraries(Tests Algebra NeuralNetwork)
