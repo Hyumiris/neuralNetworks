@@ -29,12 +29,11 @@ finish big five
 
 write matrix tests
 	- optional
-		- op(Matrix, fn)
 		- print/State
 		- improved matrix mult tests
+		- improved op tests
 write vector tests
 	- optional
 		- operators which are based on corresponding matrix operators
-		- mat-vec-product
 		- all the invalid combinations for the dot product
 write nn tests

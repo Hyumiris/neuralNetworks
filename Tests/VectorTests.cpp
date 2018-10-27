@@ -47,5 +47,37 @@ void testVector()
 
 			t.Assert(v_row.dot(v_col) == 14.0);
 		})
+		.addTest("mat-vec product", [](TestAssistant &t) {
+			Matrix translate1(4, 4);
+			translate1(0, 0) = 1.0;
+			translate1(1, 1) = 1.0;
+			translate1(2, 2) = 1.0;
+			translate1(3, 3) = 1.0;
+			translate1(0, 3) = 1.0;
+			translate1(1, 3) = 1.0;
+			translate1(2, 3) = 1.0;
+
+			Matrix scale2(4, 4);
+			scale2(0, 0) = 2.0;
+			scale2(1, 1) = 2.0;
+			scale2(2, 2) = 2.0;
+			scale2(3, 3) = 1.0;
+
+			Vector vec(4);
+			vec(3, 0) = 1.0;
+
+			Vector translateScaleVec = scale2 * translate1 * vec;
+			Vector scaleTranslateVec = translate1 * scale2 * vec;
+
+			t.Assert(translateScaleVec(0,0) == 2.0);
+			t.Assert(translateScaleVec(1,0) == 2.0);
+			t.Assert(translateScaleVec(2,0) == 2.0);
+			t.Assert(translateScaleVec(3,0) == 1.0);
+
+			t.Assert(scaleTranslateVec(0,0) == 1.0);
+			t.Assert(scaleTranslateVec(1,0) == 1.0);
+			t.Assert(scaleTranslateVec(2,0) == 1.0);
+			t.Assert(scaleTranslateVec(3,0) == 1.0);
+		})
 		.runTests();
 }

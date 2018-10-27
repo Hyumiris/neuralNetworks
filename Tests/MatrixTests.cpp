@@ -79,21 +79,30 @@ void testMatrix()
 			t.Assert(m3x3(1, 2) == m3x3[1][2]);
 		})
 		.addTest("elementWiseOp", [](TestAssistant &t) {
-			const int w = 4;
-			const int h = 2;
-			const int l = w * h;
+			int const w = 4;
+			int const h = 2;
+			int const l = w * h;
 
-			const double min = 3.0;
-			const double max = min + l;
+			double const min = 3.0;
+			double const max = min + l;
 
 			Matrix m1 = Matrix(h, w);
+			Matrix m2 = Matrix(h, w);
+
 			double counter = min;
 			m1.op([&counter](double d) { return counter++; });
+			m2.op(m1, [](double m2d, double m1d) { return m1d + 1.0; });
 
-			t.Assert(none_of(m1.begin(), m1.end(), [min, max](double d) { return d > max || d < min; }));
+			t.Assert(none_of(m1.begin(), m1.end(), [min, max](double d) { return d >= max || d < min; }));
 			for (double val = min; val < max - 0.1; val++)
 			{
 				t.Assert(any_of(m1.begin(), m1.end(), [val](double d) { return d == val; }));
+			}
+
+			t.Assert(none_of(m2.begin(), m2.end(), [min, max](double d) { return d >= max + 1.0 || d < min + 1.0; }));
+			for (double val = min + 1.0; val < max + 0.9; val++)
+			{
+				t.Assert(any_of(m2.begin(), m2.end(), [val](double d) { return d == val; }));
 			}
 		})
 		.addTest("Arithmetic", [](TestAssistant &t) {
