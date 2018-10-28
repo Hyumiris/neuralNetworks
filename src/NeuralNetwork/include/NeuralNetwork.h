@@ -8,9 +8,11 @@
 #include <vector>
 
 
+extern double NN_IDENTITY(double d);
+extern double NN_IDENTITY_INV(double d);
 
 extern double NN_SIGMOID(double d);
-extern double NN_SIGMOID_INVERSE(double d);
+extern double NN_SIGMOID_INV(double d);
 
 class NeuralNetwork
 {
@@ -34,15 +36,25 @@ class NeuralNetwork
 
 	void setActivationFn(activationFn activation, activationFn_inv activation_inv);
 
+	/* neural network operations */
+	void generateRandomConfiguration(double weightMin = -1.0, double weightMax = 1.0, double biasMin = 0.0, double biasMax = 1.0);
+	std::vector<double> forward(std::vector<double> const &input);
+
 	/* helper functions */
 	friend void swap(NeuralNetwork &nn1, NeuralNetwork &nn2);
+	void print();
 
   private:
+
+	/* private functions */
+	Vector &activate(Vector &v);
+
+	/* members */
 	std::vector<Vector> _biases;
 	std::vector<Matrix> _weights;
 
-	activationFn activation = NN_SIGMOID;
-	activationFn_inv activation_inv = NN_SIGMOID_INVERSE;
+	activationFn _activation = NN_SIGMOID;
+	activationFn_inv _activation_inv = NN_SIGMOID_INV;
 };
 
 #endif

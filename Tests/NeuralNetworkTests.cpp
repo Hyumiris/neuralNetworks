@@ -83,8 +83,23 @@ void testNeuralNetwork()
 		.addTest("set Activation Func", [](TestAssistant &t) {
 			NeuralNetwork &nn = *(NeuralNetwork *)t.getData();
 
-			nn.setActivationFn(NN_SIGMOID, NN_SIGMOID_INVERSE);
+			nn.setActivationFn(NN_IDENTITY, NN_IDENTITY_INV);
 			nn.setActivationFn([](double d) { return d; }, NNTestAssistant::testNNactivationFn);
+		})
+		.addTest("forward propagation", [](TestAssistant &t) {
+			NeuralNetwork &nn = *(NeuralNetwork *)t.getData();
+
+			int inputSize = nn.layerSize(0);
+			std::vector<double> input(inputSize, 1.0);
+			std::vector<double> result;
+
+			result = nn.forward(input);
+			t.Assert(std::all_of(result.begin(), result.end(), [](double d) { return d == 0.0; }));
+
+			nn.generateRandomConfiguration();
+
+			result = nn.forward(input);
+			t.Assert(std::none_of(result.begin(), result.end(), [](double d) { return d == 0.0; }));
 		})
 		.runTests();
 }

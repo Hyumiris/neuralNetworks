@@ -7,6 +7,9 @@ final report
 ----- Support
 
 vector class
+	- copy/move ctor for std::vector<double>
+	- conversion to std::vector<double>
+	- Vector return value op methods
 	- optional
 		- documenting comments
 		- cross product
@@ -21,8 +24,9 @@ matrix class
 
 ----- NeuralNetwork
 
-forward propagation
+activationFunctions: tanh, ReLu
 learning with training set
+options to modify whether input/output should be activated
 
 ----- Tests
 
