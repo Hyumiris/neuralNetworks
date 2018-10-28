@@ -3,24 +3,33 @@
 #define neuralnetwork_h
 
 #include <Matrix.h>
+#include <Vector.h>
+
+#include <vector>
 
 class NeuralNetwork
 {
-	NeuralNetwork(NeuralNetwork const &) = delete;
-	NeuralNetwork &operator=(NeuralNetwork const &) = delete;
-	NeuralNetwork(NeuralNetwork &&) = delete;
-	NeuralNetwork &operator=(NeuralNetwork &&) = delete;
-
   public:
-	NeuralNetwork(int layerCount, int *layerDepths);
-	~NeuralNetwork();
+	/* constructors */
+	NeuralNetwork();
+	NeuralNetwork(std::vector<int> const &layerSpecs);
+	NeuralNetwork(int layerCount, int const *layerDepths);
+	NeuralNetwork(NeuralNetwork const &nn);
+	NeuralNetwork(NeuralNetwork &&nn);
+
+	/* assignment operators */
+	NeuralNetwork &operator=(NeuralNetwork nn);
+
+	/* accessors */
+	int numLayers() const;
+	int layerSize(int layer) const;
+
+	/* helper functions */
+	friend void swap(NeuralNetwork &nn1, NeuralNetwork &nn2);
 
   private:
-	int _layerCount;
-	int *_layerDepth;
-
-	Matrix **_layers;
-	Matrix **_weights;
+	std::vector<Vector> _biases;
+	std::vector<Matrix> _weights;
 };
 
 #endif

@@ -21,7 +21,9 @@ matrix class
 
 ----- NeuralNetwork
 
-finish big five
+activation function
+forward propagation
+learning with training set
 
 ----- Tests
 
