@@ -21,7 +21,6 @@ matrix class
 
 ----- NeuralNetwork
 
-activation function
 forward propagation
 learning with training set
 

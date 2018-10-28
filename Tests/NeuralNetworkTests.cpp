@@ -17,6 +17,11 @@ class NNTestAssistant : public TestAssistant
 	{
 		return &nn;
 	}
+
+	static double testNNactivationFn(double d)
+	{
+		return 0.0;
+	}
 };
 
 void testNeuralNetwork()
@@ -56,22 +61,30 @@ void testNeuralNetwork()
 			NeuralNetwork nn2, nn3;
 
 			nn2 = nn;
-			
+
 			t.Assert(&nn != &nn2);
 			t.Assert(nn.numLayers() == nn2.numLayers());
-			for(int i = nn.numLayers() - 1; i >= 0; --i) {
+			for (int i = nn.numLayers() - 1; i >= 0; --i)
+			{
 				t.Assert(nn.layerSize(i) == nn2.layerSize(i));
 			}
-			
+
 			nn3 = std::move(nn);
 
 			t.Assert(nn.numLayers() != nn3.numLayers());
 
 			t.Assert(&nn2 != &nn3);
 			t.Assert(nn2.numLayers() == nn3.numLayers());
-			for(int i = nn2.numLayers() - 1; i >= 0; --i) {
+			for (int i = nn2.numLayers() - 1; i >= 0; --i)
+			{
 				t.Assert(nn2.layerSize(i) == nn3.layerSize(i));
 			}
+		})
+		.addTest("set Activation Func", [](TestAssistant &t) {
+			NeuralNetwork &nn = *(NeuralNetwork *)t.getData();
+
+			nn.setActivationFn(NN_SIGMOID, NN_SIGMOID_INVERSE);
+			nn.setActivationFn([](double d) { return d; }, NNTestAssistant::testNNactivationFn);
 		})
 		.runTests();
 }

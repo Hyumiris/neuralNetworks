@@ -61,6 +61,12 @@ int NeuralNetwork::layerSize(int layer) const
 	return _biases[layer].Length();
 }
 
+void NeuralNetwork::setActivationFn(activationFn activation, activationFn_inv activation_inv)
+{
+	this->activation = activation;
+	this->activation_inv = activation_inv;
+}
+
 /*
 ---------------------------------------------------
 ----- helper functions
@@ -72,4 +78,14 @@ void swap(NeuralNetwork &nn1, NeuralNetwork &nn2)
 	using std::swap;
 	swap(nn1._biases, nn2._biases);
 	swap(nn1._weights, nn2._weights);
+}
+
+double NN_SIGMOID(double d)
+{
+	return 0.0;
+}
+
+double NN_SIGMOID_INVERSE(double d)
+{
+	return 0.0;
 }
