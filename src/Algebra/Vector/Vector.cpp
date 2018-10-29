@@ -3,6 +3,7 @@
 
 #include <stdexcept>
 #include <algorithm>
+#include <vector>
 
 /* constructors */
 
@@ -30,6 +31,14 @@ Vector::Vector(Matrix &&m) : Matrix(std::move(m))
 	{
 		this->Matrix::~Matrix();
 		throw std::invalid_argument("The Matrix needs to have at least one dimension of size 1");
+	}
+}
+
+Vector::Vector(std::vector<double> const &v) : Vector(v.size())
+{
+	for(int i = v.size() -1; i >= 0; --i)
+	{
+		(*this)(i) = v[i];
 	}
 }
 
@@ -131,6 +140,15 @@ double Vector::dot(Vector const &v) const
 	}
 
 	return result;
+}
+
+/* conversion */
+
+Vector::operator std::vector<double>()
+{
+	std::vector<double> retVal(this->Length());
+	std::copy(this->begin(), this->end(), retVal.begin());
+	return retVal;
 }
 
 double Vector::dot(Vector const &v1, Vector const &v2)

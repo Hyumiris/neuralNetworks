@@ -4,6 +4,8 @@
 
 #include "Matrix.h"
 
+#include <vector>
+
 class Vector : public Matrix
 {
   public:
@@ -14,6 +16,8 @@ class Vector : public Matrix
 
 	Vector(Matrix const &m);
 	Vector(Matrix &&m);
+
+	Vector(std::vector<double> const &v);
 
 	/* assignment */
 	friend void swap(Vector &v1, Vector &v2);
@@ -45,8 +49,12 @@ class Vector : public Matrix
 	Vector transpose() const;
 	double dot(Vector const & v) const;
 	static double dot(Vector const & v1, Vector const & v2);
+
+	/* conversion */
+	operator std::vector<double>();
 };
 
+/* arithmetic */
 Vector operator+(Vector const &v1, Vector const &v2);
 Vector operator-(Vector const &v1, Vector const &v2);
 Vector operator*(Vector const &v, double d);

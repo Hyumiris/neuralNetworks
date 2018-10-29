@@ -113,5 +113,22 @@ void testVector()
 			t.Assert(v_col != v_row);
 			t.Assert(v_col_c != v_row_c);
 		})
+		.addTest("std::vector conversion", [](TestAssistant &t){
+			Vector v(5);
+			v(0) = 0.0;
+			v(1) = 1.0;
+			v(2) = 2.0;
+			v(3) = 3.0;
+			v(4) = 4.0;
+
+			std::vector<double> tmp = v;
+
+			t.Assert(std::equal(v.begin(), v.end(), tmp.begin()));
+
+			Vector v2(tmp);
+
+			t.Assert(std::equal(v2.begin(), v2.end(), tmp.begin()));
+			t.Assert(std::equal(v2.begin(), v2.end(), v.begin()));
+		})
 		.runTests();
 }
