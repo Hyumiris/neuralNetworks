@@ -69,10 +69,15 @@ int NeuralNetwork::layerSize(int layer) const
 	return layer != 0 ? _biases[layer - 1].Length() : _weights[layer].Width();
 }
 
-void NeuralNetwork::setActivationFn(activationFn activation, activationFn_inv activation_inv)
+void NeuralNetwork::setLearningRate(double d)
+{
+	_learningRate = d;
+}
+
+void NeuralNetwork::setActivationFn(activationFn activation, activationFn_der activation_inv)
 {
 	this->_activation = activation;
-	this->_activation_inv = activation_inv;
+	this->_activation_der = activation_inv;
 }
 
 /*
@@ -108,20 +113,85 @@ void NeuralNetwork::generateRandomConfiguration(double weightMin, double weightM
 
 std::vector<double> NeuralNetwork::forward(std::vector<double> const &input)
 {
-	Vector tmp(input.size());
-	std::copy(input.begin(), input.end(), tmp.begin());
+	return forward_v(Vector(input));
+}
 
-	for (int i = 0; i < numLayers() - 1; ++i)
+double NeuralNetwork::getError(std::vector<double> const input, std::vector<double> const expectedResult)
+{
+	return calculateLoss(forward_v(input), Vector(expectedResult));
+}
+
+double NeuralNetwork::getError(std::vector<std::vector<double>> const input, std::vector<std::vector<double>> const expectedResult)
+{
+	return calculateLoss(forward_m(vecToMatrix(input)), vecToMatrix(expectedResult));
+}
+
+/*
+currently the result and input get activated
+*/
+void NeuralNetwork::train(std::vector<std::vector<double>> const &trainingData, std::vector<std::vector<double>> const &trainingResults)
+{
+	Matrix inputMatrix = vecToMatrix(trainingData);
+	Matrix expectedMatrix = vecToMatrix(trainingResults);
+	if (inputMatrix.Width() != expectedMatrix.Width())
 	{
-		Vector multResult = _weights[i] * tmp;
-		Vector plusBias = multResult + _biases[i];
-		tmp = activate(plusBias);
+		throw std::invalid_argument("trainingData and trainingResults need the same sample size");
 	}
 
-	std::vector<double> retVal(tmp.Length());
-	std::copy(tmp.begin(), tmp.end(), retVal.begin());
+	// set up storage to temporarily hold results for all layers
+	std::vector<Matrix> layerZ(numLayers());
+	std::vector<Matrix> layerActivated(numLayers());
+	layerZ[0] = inputMatrix;
+	// this determines whether the input gets activated
+	layerActivated[0] = layerZ[0];
 
-	return retVal;
+	// calculate all layers
+	layerZ[1] = _weights[0] * layerZ[0];
+	addBias(layerZ[1], _biases[0]);
+	for (int i = 0; i < numLayers() - 1; ++i)
+	{
+		layerZ[i + 1] = _weights[i] * layerActivated[i];
+		addBias(layerZ[i + 1], _biases[i]);
+		layerActivated[i + 1] = getActivated(layerZ[i + 1]);
+	}
+	// this determines whether the result gets activated
+	Matrix result = layerActivated[numLayers() - 1];
+
+	// train
+	Matrix err = result - expectedMatrix;
+	Matrix Z, dLossdZ, dLossdWeights, deltaWeights, dLossdBias, dLossdInput, deltaInput;
+	Vector deltaBias;
+	for (int i = layerZ.size() - 2; i >= 0; i--)
+	{
+		Z = layerZ[i + 1]; // avoid this copy?
+		Z.op(_activation_der);
+		/* this assumes mse as loss function */
+		dLossdZ = (2 * err).op(Z, [](double d1, double d2) { return d1 * d2; });
+
+		dLossdWeights = dLossdZ * layerActivated[i].transpose();
+		deltaWeights = -1 * _learningRate * dLossdWeights;
+
+		double const biasFactor = 0.001;
+		dLossdBias = dLossdZ;
+		deltaBias = Vector(dLossdBias.Height());
+		for (int h = dLossdBias.Height() - 1; h >= 0; --h)
+		{
+			double sum = 0.0;
+			for (int w = dLossdBias.Width() - 1; w >= 0; --w)
+			{
+				sum += dLossdBias(h, w);
+			}
+			deltaBias(h) += sum / dLossdBias.Width();
+		}
+		deltaBias *= -1 * _learningRate * biasFactor;
+
+		dLossdInput = _weights[i].transpose() * dLossdZ;
+		deltaInput = -1 * dLossdInput;
+
+		_weights[i] += deltaWeights;
+		_biases[i] += deltaBias;
+		err = deltaInput;
+	}
 }
 
 /*
@@ -135,6 +205,9 @@ void swap(NeuralNetwork &nn1, NeuralNetwork &nn2)
 	using std::swap;
 	swap(nn1._biases, nn2._biases);
 	swap(nn1._weights, nn2._weights);
+	swap(nn1._activation, nn2._activation);
+	swap(nn1._activation_der, nn2._activation_der);
+	swap(nn1._learningRate, nn2._learningRate);
 }
 
 void NeuralNetwork::print()
@@ -150,10 +223,79 @@ void NeuralNetwork::print()
 	}
 }
 
-Vector &NeuralNetwork::activate(Vector &v)
+/*
+---------------------------------------------------
+----- private functions
+---------------------------------------------------
+*/
+
+void NeuralNetwork::activate(Matrix &m) const
 {
-	v.op(_activation);
-	return v;
+	m.op(_activation);
+}
+
+Matrix NeuralNetwork::getActivated(Matrix const &m) const
+{
+	Matrix retVal(m);
+	activate(retVal);
+	return retVal;
+}
+
+void NeuralNetwork::addBias(Matrix &m, Vector const &bias) const
+{
+	for (int h = m.Height() - 1; h >= 0; --h)
+	{
+		for (int w = m.Width() - 1; w >= 0; --w)
+		{
+			m(h, w) += bias(h);
+		}
+	}
+}
+
+Vector NeuralNetwork::forward_v(Vector const &input) const
+{
+	return Vector(forward_m(input));
+}
+
+Matrix NeuralNetwork::forward_m(Matrix const &input) const
+{
+	Matrix retVal(input);
+
+	for (int i = 0; i < numLayers() - 1; ++i)
+	{
+		retVal = _weights[i] * retVal;
+		addBias(retVal, _biases[i]);
+		activate(retVal);
+	}
+
+	return retVal;
+}
+
+double NeuralNetwork::calculateLoss(Matrix const &result, Matrix const &expectedResult) const
+{
+	/* hardcoded mse */
+	Matrix diff = (result - expectedResult);
+	diff.op([](double d) { return d * d; });
+	return std::accumulate(diff.begin(), diff.end(), 0.0) / (diff.Height() * diff.Width());
+}
+
+Matrix NeuralNetwork::vecToMatrix(std::vector<std::vector<double>> const &vec) const
+{
+	if (std::any_of(vec.begin(), vec.end(),
+					[&vec](std::vector<double> const &v) { return v.size() != vec[0].size(); }))
+	{
+		throw std::invalid_argument("not all vectors are of the same size");
+	}
+	Matrix retVal(vec[0].size(), vec.size());
+	for (int x = vec.size() - 1; x >= 0; --x)
+	{
+		std::vector<double> const &v = vec[x];
+		for (int y = v.size() - 1; y >= 0; --y)
+		{
+			retVal(y, x) = v[y];
+		}
+	}
+	return retVal;
 }
 
 /*
@@ -166,19 +308,19 @@ double NN_IDENTITY(double d)
 {
 	return d;
 }
-double NN_IDENTITY_INV(double d)
+double NN_IDENTITY_DER(double d)
 {
-	return d;
+	return 1;
 }
 
-const double NN_SIGMOID_GAIN = 1.0;
+double NN_SIGMOID_GAIN = 1.0;
 double NN_SIGMOID(double d)
 {
 	return 1.0 / (1.0 + exp(-d * NN_SIGMOID_GAIN));
 }
 
-double NN_SIGMOID_INV(double d)
+double NN_SIGMOID_DER(double d)
 {
 	double sigmoid = NN_SIGMOID(d);
-	return sigmoid * (1 - sigmoid);
+	return NN_SIGMOID_GAIN * sigmoid * (1.0 - sigmoid);
 }
