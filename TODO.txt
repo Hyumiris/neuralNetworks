@@ -3,16 +3,20 @@
 
 better error feedback
 final report
+add rng
 
 ----- Support
 
 vector class
+	- exception message contains method name
 	- Vector return value op methods
+	- Vector transpose as simple swap between width and height
 	- optional
 		- documenting comments
 		- cross product
 
 matrix class
+	- exception message contains method name
 	- identity matrix creation
 	- optional
 		- documenting comments
@@ -22,7 +26,10 @@ matrix class
 
 ----- NeuralNetwork
 
+exception message contains method name
+rework train method to minimize copy ctors and side effects
 activationFunctions: tanh, ReLu
+generalize loss functions
 learning with training set
 options to modify whether input/output should be activated
 
@@ -40,3 +47,4 @@ write vector tests
 		- all the invalid combinations for the dot product
 		- invalid access tests
 write nn tests
+	- generateRandomConfiguration test
