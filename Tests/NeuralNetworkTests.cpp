@@ -135,7 +135,7 @@ void testNeuralNetwork()
 			nn.setLearningRate(0.05);
 
 			const int numSamples = 400;
-			const int numTraining = 100000;
+			const int numTraining = 10000;
 
 			std::mt19937 rng;
 			rng.seed(std::random_device()());
